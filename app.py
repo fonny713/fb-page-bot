@@ -2,12 +2,14 @@ from flask import Flask, request
 import requests
 import json
 import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
 # Facebook Credentials (Replace with your actual credentials)
 VERIFY_TOKEN = "mango"  # A secret string you create
 PAGE_ACCESS_TOKEN = "EAATxo65yWRsBO0ZCRQcXEocF99OEPlSf0Ehvrg5ahhCLZCRI7frcSxoaxgHoskkEoRTXak72pd499hJWgdF5BWZAqtc6j2G5T2bh3jGtJZBjovF7mF37c8nCU8jaqfbEviRLaVhdzaZCp57JfZBbKhp5oT3MkKGC2BDgiCPtZAgiMC40v0jWVu2tBr2SNsFDMltXAZDZD"  # Generated from Facebook Developer Console
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Route to handle Facebook's Webhook Verification
 @app.route("/webhook", methods=['GET', 'POST'])
@@ -68,10 +70,9 @@ def send_message(psid, response):
 # Function to get ChatGPT response
 def get_chatgpt_response(message):
     """Query OpenAI's API for a response."""
-    openai_api_key = "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"  # Replace with your OpenAI API key
     url = "https://api.openai.com/v1/chat/completions"
     headers = {
-        "Authorization": f"Bearer {openai_api_key}",
+        "Authorization": f"Bearer {OPENAI_API_KEY}",
         "Content-Type": "application/json"
     }
     payload = {
